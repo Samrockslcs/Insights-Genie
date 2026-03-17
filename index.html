@@ -101,7 +101,7 @@
                 Welcome <span id="display-username">Strategist</span>
                 </h2>
                 <p class="text-gray-600 mb-8 max-w-lg mx-auto">
-                    I am your <b>AI-powered Insights Genie</b>:  transforming the top 1000 searches into instant insights and visual infographics.
+                    I am your <b>AI-powered Insights Genie</b>: transforming the top 1000 searches into instant insights and visual infographics.
                 </p>
                 
                 <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 text-left mb-8">
@@ -184,28 +184,18 @@
 
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Keyword Spreadsheet URL</label>
-                        <input type="text" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/..." class="input-field w-full px-4 py-3">
+                        <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Select Category</label>
+                        <select id="sheetUrl" class="input-field w-full px-4 py-3 cursor-pointer" onchange="autoFillAudience()">
+                            <option value="" disabled selected>Select a dataset...</option>
+                            <option value="https://docs.google.com/spreadsheets/d/1owdACbbRezfbMj-8y-RUvEmxfmxz-pBhcoHevGkwKLo/edit?resourcekey=0-AK-OMtEB2Rf-hq5ZpivH-g&gid=1443056856#gid=1443056856">Skin Care</option>
+                            <option value="https://docs.google.com/spreadsheets/d/1owdACbbRezfbMj-8y-RUvEmxfmxz-pBhcoHevGkwKLo/edit?resourcekey=0-AK-OMtEB2Rf-hq5ZpivH-g&gid=1443056856#gid=1443056856">Smart Watches</option>
+                            <option value="https://docs.google.com/spreadsheets/d/1owdACbbRezfbMj-8y-RUvEmxfmxz-pBhcoHevGkwKLo/edit?resourcekey=0-AK-OMtEB2Rf-hq5ZpivH-g&gid=1443056856#gid=1443056856">Smart Phones</option>
+                            <option value="https://docs.google.com/spreadsheets/d/YOUR_AI_COURSES_URL/edit">AI Courses</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Keyword Context / Category</label>
-                        <input type="text" id="targetaudience" placeholder="e.g. Smart Watches, SaaS Founders" class="input-field w-full px-4 py-3">
-                    </div>
-                    
-                    <div class="pt-4 border-t border-gray-200">
-                        <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Analysis Mode</label>
-                        <select id="analysis-type" class="input-field w-full px-4 py-3 cursor-pointer" onchange="toggleAnalysisMode()">
-                            <option value="standard">Standard Report (Terms & Location Data)</option>
-                            <option value="custom">Custom Prompt (Miscellaneous Tab Data)</option>
-                        </select>
-                    </div>
-
-                    <div id="custom-prompt-container" class="hidden transition-all duration-300">
-                        <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide flex items-center gap-1">
-                            <span class="material-symbols-outlined text-sm text-[#a142f4]">edit_note</span> Custom Instructions
-                        </label>
-                        <textarea id="custom-prompt" placeholder="E.g. Analyze this raw data. Find the top 3 anomalies, summarize user sentiment, and give me 5 marketing hooks..." class="input-field w-full px-4 py-3 h-32 text-sm resize-y"></textarea>
-                        <p class="text-xs text-gray-500 mt-1">Ensure your sheet has a tab named <b>Miscellaneous</b> containing your raw data.</p>
+                        <input type="text" id="targetaudience" placeholder="This will auto-fill based on selection" class="input-field w-full px-4 py-3">
                     </div>
                 </div>
 
@@ -240,15 +230,6 @@
                     <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded text-white">READY</span>
                 </div>
                 <div id="aiReportOutput" class="p-6 bg-[#f8f9fa] max-h-64 overflow-y-auto text-sm font-mono whitespace-pre-wrap leading-relaxed border-b border-[#dadce0]"></div>
-                <div id="tweak-container" class="hidden bg-gray-100 p-4 border-b border-[#dadce0] flex items-start gap-3">
-                    <div class="flex-1">
-                        <label class="block text-xs font-bold text-[#5f6368] mb-1 uppercase tracking-wide">Tweak Custom Prompt & Regenerate</label>
-                        <textarea id="tweak-prompt" class="input-field w-full px-3 py-2 text-sm h-12" placeholder="E.g. Make the anomalies section shorter and add a table of contents..."></textarea>
-                    </div>
-                    <button id="btn-regenerate-custom" class="bg-[#a142f4] hover:bg-[#8e3bd6] text-white px-4 py-2 mt-5 rounded font-bold shadow-sm flex items-center gap-1 transition-all h-10">
-                        <span class="material-symbols-outlined text-sm">refresh</span> Retry
-                    </button>
-                </div>
             </div>
 
             <div class="material-card p-6">
@@ -270,8 +251,7 @@
                         <span class="text-xs font-bold text-gray-500">PREVIEW</span>
                         <a id="preview-link" href="#" target="_blank" class="text-[#1a73e8] text-xs font-bold hover:underline">OPEN FULLSCREEN ↗</a>
                     </div>
-                    <div id="preview-content" class="p-4 bg-white max-h-[300px] overflow-y-auto transform scale-90 origin-top">
-                        </div>
+                    <div id="preview-content" class="p-4 bg-white max-h-[300px] overflow-y-auto transform scale-90 origin-top"></div>
                 </div>
 
                 <div class="mt-8 flex justify-between pt-4 border-t border-[#f1f3f4]">
@@ -287,17 +267,17 @@
 
     <script>
         /************* INIT: FETCH USER NAME *************/
-          document.addEventListener('DOMContentLoaded', function() {
-              google.script.run
-                  .withSuccessHandler(userData => {
-                      if (userData && userData.name) {
-                          document.getElementById('display-username').innerText = userData.name;
-                          const personInput = document.getElementById('person');
-                          if (personInput) personInput.value = userData.name;
-                      }
-                  })
-                  .getCurrentUserContext(); 
-          });
+        document.addEventListener('DOMContentLoaded', function() {
+            google.script.run
+                .withSuccessHandler(userData => {
+                    if (userData && userData.name) {
+                        document.getElementById('display-username').innerText = userData.name;
+                        const personInput = document.getElementById('person');
+                        if (personInput) personInput.value = userData.name;
+                    }
+                })
+                .getCurrentUserContext(); 
+        });
 
         /************* NAVIGATION LOGIC *************/
         let currentStep = 1;
@@ -335,58 +315,39 @@
             goToStep(3);
         }
 
-        /************* STEP 3: ANALYSIS SIMULATION *************/
+        /************* STEP 3: UI & ANALYSIS LOGIC *************/
         const el = (id) => document.getElementById(id);
-        // 1. UI Toggle for Analysis Mode
-        function toggleAnalysisMode() {
-            const mode = el('analysis-type').value;
-            const customContainer = el('custom-prompt-container');
-            if (mode === 'custom') {
-                customContainer.classList.remove('hidden');
-            } else {
-                customContainer.classList.add('hidden');
+
+        // Auto-fill target audience based on Dropdown Selection
+        function autoFillAudience() {
+            const select = el('sheetUrl');
+            if (select.value) {
+                const categoryText = select.options[select.selectedIndex].text;
+                el('targetaudience').value = categoryText;
             }
         }
 
-        // 2. Wrap your generation logic in a reusable function so both buttons can use it
-        function triggerAIAnalysis(isRetry = false) {
-            const u = el('sheetUrl').value.trim();
+        function triggerAIAnalysis() {
+            const u = el('sheetUrl').value;
             const a = el('targetaudience').value.trim();
-            const mode = el('analysis-type').value;
-            
-            // If it's a retry, grab text from the tweak box. Otherwise, from the main box.
-            const customPromptInput = isRetry ? el('tweak-prompt').value.trim() : el('custom-prompt').value.trim();
 
-            if (!u || !a) return alert("Please provide both Sheet URL and Topic.");
-            if (mode === 'custom' && !customPromptInput) return alert("Please provide Custom Instructions.");
+            if (!u || !a) return alert("Please select a Category/Dataset and ensure Keyword Context is filled.");
 
             const overlay = el('analysis-overlay');
             const pBar = el('progress-bar');
             const pText = el('percent-text');
             const log = el('analysis-log');
             const btn = el('btn-generate-insights');
-            const retryBtn = el('btn-regenerate-custom');
-
-            // If we are retrying, jump back to Step 3 visually to show the loader
-            if (isRetry) goToStep(3);
 
             overlay.classList.remove('hidden');
             btn.disabled = true;
-            if(retryBtn) retryBtn.disabled = true;
             btn.classList.add('opacity-50', 'cursor-not-allowed');
 
             let progress = 0;
-            const messages = mode === 'custom' ? [
+            const messages = [
                 "Connecting to Google Drive...",
-                "Scanning 'Miscellaneous' Tab...",
-                "Converting large dataset to CSV payload...",
-                "Sending custom instructions to Gemini 2.5 Pro...",
-                "Analyzing cross-tab data relationships...",
-                "Formatting custom output..."
-            ] : [
-                "Connecting to Google Drive...",
-                "Reading Credentials...",
-                "Scanning Sheet Data (0/1000)...",
+                "Reading Credentials & Sheet Details...",
+                "Scanning Data & Filtering anomalies...",
                 "Identifying Search Volume Spikes...",
                 "Mapping Competitive Landscape...",
                 "Generating Strategic Narratives..."
@@ -410,23 +371,12 @@
                 setTimeout(() => {
                     if (res.ok) {
                         el('aiReportOutput').textContent = res.reportText;
-                        
-                        // Show or Hide the Tweak Box in Step 4 based on mode
-                        const tweakBox = el('tweak-container');
-                        if (mode === 'custom') {
-                            tweakBox.classList.remove('hidden');
-                            el('tweak-prompt').value = customPromptInput; // Keep their latest prompt loaded
-                        } else {
-                            tweakBox.classList.add('hidden');
-                        }
-
                         goToStep(4);
                     } else {
                         alert("Error: " + res.error);
                     }
                     overlay.classList.add('hidden');
                     btn.disabled = false;
-                    if(retryBtn) retryBtn.disabled = false;
                     btn.classList.remove('opacity-50', 'cursor-not-allowed');
                 }, 800);
             };
@@ -437,22 +387,14 @@
                 alert("Connection Failed: " + err);
                 overlay.classList.add('hidden');
                 btn.disabled = false;
-                if(retryBtn) retryBtn.disabled = false;
                 btn.classList.remove('opacity-50', 'cursor-not-allowed');
             };
 
-            // Route to correct backend function
-            if (mode === 'custom') {
-                google.script.run
-                    .withSuccessHandler(successHandler)
-                    .withFailureHandler(failureHandler)
-                    .generateMiscellaneousInsights(u, a, customPromptInput);
-            } else {
-                google.script.run
-                    .withSuccessHandler(successHandler)
-                    .withFailureHandler(failureHandler)
-                    .generateInsightsFromSheet(u, a);
-            }
+            // Directly call the standard Insights generation
+            google.script.run
+                .withSuccessHandler(successHandler)
+                .withFailureHandler(failureHandler)
+                .generateInsightsFromSheet(u, a);
 
             const progressInterval = setInterval(() => {
                 if (progress < 90) {
@@ -466,36 +408,22 @@
             }, 300);
         }
 
-        // Overwrite your existing btn-generate-insights listener:
-        el('btn-generate-insights').addEventListener('click', () => triggerAIAnalysis(false));
+        el('btn-generate-insights').addEventListener('click', triggerAIAnalysis);
         
-        // Add listener for the new Retry button
-        if(el('btn-regenerate-custom')) {
-            el('btn-regenerate-custom').addEventListener('click', () => triggerAIAnalysis(true));
-        }
-        
-
         /************* STEP 4: VISUAL GENERATION (SMART URL FIX) *************/
         
-        // This function detects broken Drive links and repairs them using your Working Base URL
         function fixUrl(originalUrl) {
             if (!originalUrl) return "#";
             
-            // Your known working Script URL base
             const BASE_SCRIPT_URL = "https://script.google.com/a/google.com/macros/s/AKfycbyYJE79voaU7b9e7UHIZcqL_LZYa6I7UQEuBSr8NYnRrrvpbZ9pBnt32aj-F5j5PhQ3ag/exec";
             
-            // If the backend returns a Drive link (the error you are seeing)
             if (originalUrl.includes("drive.google.com") || originalUrl.includes("file/d/")) {
-                // Extract the File ID using regex
                 const match = originalUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                 if (match && match[1]) {
-                    // Construct the correct script URL manually
                     console.log("Fixed URL for fullscreen");
                     return BASE_SCRIPT_URL + "?view=" + match[1];
                 }
             }
-            
-            // If it's already correct, return it as is
             return originalUrl;
         }
 
@@ -521,23 +449,21 @@
 
                         previewBox.classList.remove('hidden');
                         
-                        // Show Preview in the small box
                         el('preview-content').innerHTML = res.html;
                         
-                        // Apply the URL fix before setting the link
-                        // This fixes the "Drive Link" error without needing to change Code.gs immediately
                         const fixedUrl = fixUrl(res.url);
                         el('preview-link').href = fixedUrl;
                         
                         el('btn-final-send').disabled = false;
                     } else {
-                        alert("Visual generation failed.");
+                        // THIS IS THE FIX: It will now tell us EXACTLY why it failed!
+                        alert("Visual generation failed: " + (res.error || "Gemini returned an empty response."));
                     }
                 })
                 .withFailureHandler(err => {
                     loader.classList.add('hidden');
                     btn.disabled = false;
-                    alert("Error: " + err);
+                    alert("Critical Backend Error: " + err);
                 })
                 .generateInfographicHtmlFromInsights(lbl, insights);
         });
