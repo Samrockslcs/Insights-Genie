@@ -11,12 +11,11 @@
     <style>
         body { background-color: #f0f4f9; color: #202124; font-family: 'Roboto', sans-serif; }
         
-        /* Smooth Fade Transitions */
         .step-container {
             opacity: 0;
             transform: translateY(10px);
             transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-            display: none; /* Hidden by default */
+            display: none; 
         }
         .step-active {
             opacity: 1;
@@ -24,7 +23,6 @@
             display: block;
         }
 
-        /* Material Inputs & Cards */
         .material-card {
             background: #ffffff;
             border: 1px solid #dadce0;
@@ -44,7 +42,6 @@
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
         }
 
-        /* Animated Progress Bar */
         .progress-container {
             width: 100%;
             background-color: #e0e0e0;
@@ -61,7 +58,6 @@
             border-radius: 8px;
         }
         
-        /* Analysis Terminal Text */
         .analysis-text {
             font-family: 'Courier New', monospace;
             color: #5f6368;
@@ -69,7 +65,6 @@
             min-height: 20px;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 4px; }
@@ -101,7 +96,7 @@
                 Welcome <span id="display-username">Strategist</span>
                 </h2>
                 <p class="text-gray-600 mb-8 max-w-lg mx-auto">
-                    I am your <b>AI-powered Insights Genie</b>: transforming the top 1000 searches into instant insights and visual infographics.
+                    I am your <b>AI-powered Insights Genie</b>: transforming the top 2000 searches into instant insights and visual infographics.
                 </p>
                 
                 <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 text-left mb-8">
@@ -109,25 +104,19 @@
                         <h3 class="font-bold text-blue-800 text-sm uppercase tracking-wide m-0">
                             Instructions
                         </h3>
-                        <a href="https://docs.google.com/spreadsheets/d/1jlqYHbIDrMNmS-fZu6HZfrRK8jFnyBx96Pjvn6_x80E/edit?gid=324557294#gid=324557294" 
-                           target="_blank" 
-                           class="flex items-center gap-1 px-2 py-1 rounded bg-white border border-blue-200 text-blue-600 text-xs font-semibold hover:bg-blue-100 transition-colors no-underline shadow-sm">
-                            <span class="material-symbols-outlined text-[16px]">download</span>
-                            Template
-                        </a>
                     </div>
                     <ul class="space-y-3 text-sm text-blue-900">
                         <li class="flex items-start gap-2">
                             <span class="material-symbols-outlined text-blue-600 text-lg">check_circle</span>
-                            <span>Make a copy of the template and input your top <b>1000</b> keywords and State level data.</span>
+                            <span>On next part enter your project credentials, including the client name and potential revenue opportunity.</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="material-symbols-outlined text-blue-600 text-lg">check_circle</span>
-                            <span>Ensure your Google Sheet is accessible (Shared with "Alphabet").</span>
+                            <span>Select a pre-loaded category dataset from the dropdown menu to automatically configure your analysis, or upload a Custom Sheet.</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="material-symbols-outlined text-blue-600 text-lg">check_circle</span>
-                            <span>Have your recipient list ready (Google emails only).</span>
+                            <span>Have your recipient list ready (ensure they are valid <b>@google.com</b> email addresses).</span>
                         </li>
                     </ul>
                 </div>
@@ -148,7 +137,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Strategist Name</label>
+                        <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Your Name</label>
                         <input type="text" id="person" class="input-field w-full px-4 py-3 bg-gray-50" readonly>
                     </div>
                     <div>
@@ -157,7 +146,15 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Revenue Opportunity *</label>
-                        <input type="text" id="revenue" class="input-field w-full px-4 py-3" placeholder="e.g. $500k">
+                          <select id="revenue" class="input-field w-full px-4 py-3 cursor-pointer">
+                              <option value="" disabled selected>Select the Revenue </option>
+                              <option value="Under $50k">Under $50k</option>
+                              <option value="$50k - $100k">$50k - $100k</option>
+                              <option value="$100k - $250k">$100k - $250k</option>
+                              <option value="$250k - $500k">$250k - $500k</option>
+                              <option value="$500k - $1M">$500k - $1M</option>
+                              <option value="$1M+">$1M+</option>
+                          </select>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Recipients (@google.com)</label>
@@ -185,14 +182,20 @@
                 <div class="space-y-6">
                     <div>
                         <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Select Category</label>
-                        <select id="sheetUrl" class="input-field w-full px-4 py-3 cursor-pointer" onchange="autoFillAudience()">
+                        <select id="sheetUrl" class="input-field w-full px-4 py-3 cursor-pointer" onchange="handleDatasetSelection()">
                             <option value="" disabled selected>Select a dataset...</option>
                             <option value="https://docs.google.com/spreadsheets/d/1owdACbbRezfbMj-8y-RUvEmxfmxz-pBhcoHevGkwKLo/edit?resourcekey=0-AK-OMtEB2Rf-hq5ZpivH-g&gid=1443056856#gid=1443056856">Skin Care</option>
                             <option value="https://docs.google.com/spreadsheets/d/1owdACbbRezfbMj-8y-RUvEmxfmxz-pBhcoHevGkwKLo/edit?resourcekey=0-AK-OMtEB2Rf-hq5ZpivH-g&gid=1443056856#gid=1443056856">Smart Watches</option>
                             <option value="https://docs.google.com/spreadsheets/d/1owdACbbRezfbMj-8y-RUvEmxfmxz-pBhcoHevGkwKLo/edit?resourcekey=0-AK-OMtEB2Rf-hq5ZpivH-g&gid=1443056856#gid=1443056856">Smart Phones</option>
-                            <option value="https://docs.google.com/spreadsheets/d/YOUR_AI_COURSES_URL/edit">AI Courses</option>
+                            <option value="CUSTOM">➕ Add Category...</option>
                         </select>
                     </div>
+
+                    <div id="custom-url-container" class="hidden">
+                        <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Custom Sheet URL *</label>
+                        <input type="text" id="customSheetUrl" placeholder="Paste your Google Sheet link here..." class="input-field w-full px-4 py-3">
+                    </div>
+
                     <div>
                         <label class="block text-xs font-bold text-[#5f6368] mb-2 uppercase tracking-wide">Keyword Context / Category</label>
                         <input type="text" id="targetaudience" placeholder="This will auto-fill based on selection" class="input-field w-full px-4 py-3">
@@ -318,20 +321,29 @@
         /************* STEP 3: UI & ANALYSIS LOGIC *************/
         const el = (id) => document.getElementById(id);
 
-        // Auto-fill target audience based on Dropdown Selection
-        function autoFillAudience() {
+        function handleDatasetSelection() {
             const select = el('sheetUrl');
-            if (select.value) {
+            const customContainer = el('custom-url-container');
+            const audienceInput = el('targetaudience');
+
+            if (select.value === 'CUSTOM') {
+                customContainer.classList.remove('hidden');
+                audienceInput.value = '';
+                audienceInput.placeholder = 'Enter Custom Category/Topic...';
+            } else {
+                customContainer.classList.add('hidden');
                 const categoryText = select.options[select.selectedIndex].text;
-                el('targetaudience').value = categoryText;
+                audienceInput.value = categoryText;
             }
         }
 
         function triggerAIAnalysis() {
-            const u = el('sheetUrl').value;
+            const selectVal = el('sheetUrl').value;
+            const isCustom = selectVal === 'CUSTOM';
+            const u = isCustom ? el('customSheetUrl').value.trim() : selectVal;
             const a = el('targetaudience').value.trim();
 
-            if (!u || !a) return alert("Please select a Category/Dataset and ensure Keyword Context is filled.");
+            if (!u || !a) return alert("Please provide a valid Dataset/Sheet URL and Keyword Context.");
 
             const overlay = el('analysis-overlay');
             const pBar = el('progress-bar');
@@ -361,7 +373,6 @@
                 }
             }, 800);
 
-            // Handle Success
             const successHandler = (res) => {
                 clearInterval(textInterval);
                 pBar.style.width = '100%';
@@ -381,7 +392,6 @@
                 }, 800);
             };
 
-            // Handle Failure
             const failureHandler = (err) => {
                 clearInterval(textInterval);
                 alert("Connection Failed: " + err);
@@ -390,17 +400,23 @@
                 btn.classList.remove('opacity-50', 'cursor-not-allowed');
             };
 
-            // Directly call the standard Insights generation
-            google.script.run
-                .withSuccessHandler(successHandler)
-                .withFailureHandler(failureHandler)
-                .generateInsightsFromSheet(u, a);
+            if (isCustom) {
+                google.script.run
+                    .withSuccessHandler(successHandler)
+                    .withFailureHandler(failureHandler)
+                    .generateCustomInsightsFromSheet(u, a);
+            } else {
+                google.script.run
+                    .withSuccessHandler(successHandler)
+                    .withFailureHandler(failureHandler)
+                    .generateInsightsFromSheet(u, a);
+            }
 
             const progressInterval = setInterval(() => {
                 if (progress < 90) {
                     progress += Math.random() * 5;
                     if (progress > 90) progress = 90;
-                    pBar.style.width = `${progress}%`;
+                    pBar.style.width = `${Math.round(progress)}%`;
                     pText.innerText = `${Math.round(progress)}%`;
                 } else {
                     clearInterval(progressInterval);
@@ -410,17 +426,15 @@
 
         el('btn-generate-insights').addEventListener('click', triggerAIAnalysis);
         
-        /************* STEP 4: VISUAL GENERATION (SMART URL FIX) *************/
+        /************* STEP 4: VISUAL GENERATION (SMART URL FIX + CUSTOM ROUTING) *************/
         
         function fixUrl(originalUrl) {
             if (!originalUrl) return "#";
-            
             const BASE_SCRIPT_URL = "https://script.google.com/a/google.com/macros/s/AKfycbyYJE79voaU7b9e7UHIZcqL_LZYa6I7UQEuBSr8NYnRrrvpbZ9pBnt32aj-F5j5PhQ3ag/exec";
             
             if (originalUrl.includes("drive.google.com") || originalUrl.includes("file/d/")) {
                 const match = originalUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                 if (match && match[1]) {
-                    console.log("Fixed URL for fullscreen");
                     return BASE_SCRIPT_URL + "?view=" + match[1];
                 }
             }
@@ -433,39 +447,55 @@
             const btn = el('btn-generate-visual');
             const loader = el('visual-loading');
             const previewBox = el('infographicPreview');
+            
+            const selectVal = el('sheetUrl').value;
+            const isCustom = selectVal === 'CUSTOM';
 
             btn.disabled = true;
             loader.classList.remove('hidden');
             previewBox.classList.add('hidden');
 
-            google.script.run
-                .withSuccessHandler(res => {
-                    loader.classList.add('hidden');
-                    btn.disabled = false;
-                    
-                    if (res.ok && res.html) {
-                        google.script.run.setInfographicHTML(res.html);
-                        if(res.url) google.script.run.setInfographicURL(res.url);
+            const visualSuccessHandler = (res) => {
+                loader.classList.add('hidden');
+                btn.disabled = false;
+                
+                if (!res) {
+                    alert("Critical Error: The server returned an empty or unreadable response.");
+                    return;
+                }
+                
+                if (res.ok && res.html) {
+                    google.script.run.setInfographicHTML(res.html);
+                    if(res.url) google.script.run.setInfographicURL(res.url);
 
-                        previewBox.classList.remove('hidden');
-                        
-                        el('preview-content').innerHTML = res.html;
-                        
-                        const fixedUrl = fixUrl(res.url);
-                        el('preview-link').href = fixedUrl;
-                        
-                        el('btn-final-send').disabled = false;
-                    } else {
-                        // THIS IS THE FIX: It will now tell us EXACTLY why it failed!
-                        alert("Visual generation failed: " + (res.error || "Gemini returned an empty response."));
-                    }
-                })
-                .withFailureHandler(err => {
-                    loader.classList.add('hidden');
-                    btn.disabled = false;
-                    alert("Critical Backend Error: " + err);
-                })
-                .generateInfographicHtmlFromInsights(lbl, insights);
+                    previewBox.classList.remove('hidden');
+                    el('preview-content').innerHTML = res.html;
+                    
+                    const fixedUrl = fixUrl(res.url);
+                    el('preview-link').href = fixedUrl;
+                    el('btn-final-send').disabled = false;
+                } else {
+                    alert("Visual generation failed: " + (res.error || "Gemini returned an empty response."));
+                }
+            };
+
+            const visualFailureHandler = (err) => {
+                loader.classList.add('hidden');
+                btn.disabled = false;
+                alert("Critical Backend Error: " + err);
+            };
+
+            if (isCustom) {
+                google.script.run
+                    .withSuccessHandler(visualSuccessHandler)
+                    .withFailureHandler(visualFailureHandler)
+                    .generateCustomInfographicHtmlFromInsights(lbl, insights);
+            } else {
+                google.script.run
+                    .withSuccessHandler(visualSuccessHandler)
+                    .withFailureHandler(visualFailureHandler)
+                    .generateInfographicHtmlFromInsights(lbl, insights);
+            }
         });
 
         // Final Publish & Send
