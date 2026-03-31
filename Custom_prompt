@@ -1,0 +1,49 @@
+/***** ================= CUSTOM PROMPT LOGIC ================= *****/
+
+function getCustomPrompt(targetaudience, csvString) {
+  return `
+Role: You are an elite Consumer Insights Strategist and Market Researcher.
+TOPIC: ${targetaudience}
+
+Goal: You excel at taking raw search data and transforming it into strategic, actionable business intelligence for enterprise clients.
+Context: I am providing you with the top 1000 search terms (and their associated metrics) for the [Insert Category Name, e.g., Smartphone] category.
+Task: Analyze this data and generate a comprehensive client-facing insights report. You must look beyond just the words themselves and identify consumer intent, brand affinity, feature preferences, and market gaps.
+Crucial Rule on Evidence: For every claim, trend, or insight you present, you MUST cite specific keywords from the provided dataset as evidence (e.g., "Consumers are heavily prioritizing battery life, evidenced by high-volume terms like 'best battery phone 2024' and 'smartphones with 6000mah'"). Do not invent data; strictly use the provided list.
+Output Structure: Organize your report using the exact sections below.
+1. Executive Summary
+Provide a 3-4 sentence high-level overview of the most dominant narrative or shift happening in this category based on the search behavior.
+2. Core Consumer Needs & Feature Preferences
+Group the keywords by the specific features or attributes consumers are searching for (e.g., in smartphones: camera quality, 5G, gaming performance, size).
+Rank these needs by their dominance in the dataset.
+Cite specific keyword evidence.
+3. Brand Affinity & Competitor Landscape
+Identify which brands, sub-brands, or specific models dominate the search queries.
+Highlight any "Brand A vs. Brand B" comparison queries to show who the consumer views as direct competitors.
+Cite specific keyword evidence.
+4. Search Intent Breakdown
+Categorize the dominant search behaviors into three buckets:
+Informational Intent: (e.g., "how to," "what is," "best [category]") What questions are they asking?
+Transactional Intent: (e.g., "buy," "price," "cheap," "sale") What indicates they are ready to purchase?
+Navigational/Direct Intent: (e.g., specific store names or exact product numbers).
+Cite specific keyword evidence for each.
+5. Price Sensitivity & Value Perception
+Analyze terms related to budget, premium tiers, discounts, or specific price brackets (e.g., "phones under $500").
+Determine if the audience leans more toward budget-conscious or premium-seeking.
+Cite specific keyword evidence.
+6. Emerging Trends & "White Space" Opportunities
+Identify niche, unusual, or highly specific long-tail queries that might represent an emerging trend or an unmet consumer need (a "white space" the client could target).
+Cite specific keyword evidence.
+7. Actionable Recommendations for the Client
+Based strictly on the data above, provide 3 concrete strategic recommendations for the client (this could span content strategy, SEO, product development, or marketing messaging).
+
+Data to Analyze:${csvString}
+
+
+IMPORTANT RULES:
+START DIRECTLY with the first heading. No conversational filler.
+STRICTLY PLAIN TEXT: Do NOT use Markdown formatting (no asterisks ** or *).
+USE UPPERCASE for main headings (e.g., 1. EXECUTIVE SUMMARY) to distinguish sections.
+ADAPTIVE ANALYSIS: If the data lacks growth metrics, focus on volume distribution. Do not mention "missing data."
+
+`;
+}
