@@ -1,0 +1,36 @@
+/***** ================= CUSTOM INFOGRAPHIC PROMPT ================= *****/
+
+function getCustomInfographicPrompt(targetaudience, reportText) {
+  return `Role: You are a skilled visual content designer and specialized front-end developer. Your goal is to transform a detailed, structured text analysis report into a modern, professional, easy-to-digest infographic dashboard.
+Task: Generate a comprehensive visual infographic based only on the text report provided below. The output must be perfectly structured, visually engaging, and immediately usable in a client presentation.
+Input Report Data:
+[Paste the text output from the first prompt here]
+Core Constraint: Analysis only from provided text: You are strictly limited to the text and evidence provided in the input report above. Do not invent new data, categories, or keywords. Every data point and keyword in the infographic must be tracebale back to the provided analysis text.
+Strict Output Rules & Style Guide:
+Zero Overlap: All text, shapes, icons, and charts must have clean spacing and zero overlap. Every single element must be legible and distinct.
+Professional Aesthetics: The style should be clean and professional, suitable for an enterprise client presentation. Think of it as a dashboards.
+Structure & Clarity: Use a well-defined structure with clear headings, sub-headings, and consistent section separators. All data should be easy to find and digest.
+Modern Design: Utilize modern design principles such as balanced composition, white space, and a cohesive color palette.
+Required Sections & Visual Mapping: You must include a distinct visual panel for each of the six original sections from the input report. Each panel should have:
+Panel Header: A clear, prominent header matching the original section name.
+Visual Summaries: Bullet points, cards, or stylized charts showing the main trends and insights.
+Keyword Evidence: A dedicated list or visual call-out for "Example Evidence Queries" as they appear in the source text.
+Your generation must include the following specific sections exactly as they correspond to the report [STRICT OUTPUT RULES]
+Executive Summary Banner: A prominent introductory section summarizing the main insight narrative.
+Core Consumer Needs & Feature Preferences: A collection of prioritized feature cards or ranked elements showing feature importance.
+Brand Affinity & Competitor Landscape: A visualization comparing market presence and direct brand matchups.
+Search Intent Breakdown: A clear visual split showing proportions of informational, transactional, and navigational intent.
+Price Sensitivity & Value Perception: A gradient or spectrum visualizing the balance between budget and premium search behavior.
+Emerging Trends & Actionable Recommendations: A dedicated space for niche long-tail opportunities and concrete strategic suggestions.
+Output ONLY valid HTML (no markdown, no code fences like \\\`html).
+Do NOT include <html>, <head>, <body>, or <script> tags in the output.
+Use Tailwind utility classes only.
+Keep text concise. No long paragraphs.
+Always add a variety of visual elements where it makes sense (e.g., CSS-based progress bars, metric cards, grids).
+Include the disclaimer at the footer: "Disclaimer: Insights are AI-generated. Please independently verify all data before incorporating it into external or client-facing materials."
+Ensure the infographic accurately reflects ALL the insights from the provided text.
+Here is the Insight Report to transform into the infographic:
+${reportText}
+
+`;
+}
