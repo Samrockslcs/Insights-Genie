@@ -1,0 +1,154 @@
+function getSmartPhonesPrompt(sheetId, targetaudience) {
+  const ss = SpreadsheetApp.openById(sheetId);
+  
+  // 1. PROCESS TERMS
+  const termSheet = ss.getSheets()[0];
+  const termData = termSheet.getDataRange().getValues();
+  const tHeaders = termData[0].map(h => h.toString().toLowerCase());
+  const qI = tHeaders.findIndex(h => h.includes('query'));
+  const oI = tHeaders.findIndex(h => h.includes('opportunities') && !h.includes('pop'));
+  const pI = tHeaders.findIndex(h => h.includes('pop'));
+
+  const rows = termData.slice(1).map(r => ({
+    query: String(r[qI] || '').trim(),
+    adOpp: parseFloat(r[oI]) || 0,
+    adOppPoP: (parseFloat(r[pI]) || 0) * 100 
+  })).filter(r => r.query);
+
+  const maxOpp = Math.max(...rows.map(r => r.adOpp));
+  const termEnriched = rows.map(r => ({
+    query: r.query, IOS: maxOpp ? (r.adOpp / maxOpp) * 100 : 0, PoP: r.adOppPoP
+  })).sort((a,b) => b.IOS - a.IOS);
+  const termBundle = { top: termEnriched.slice(0, 100), totalRows: termEnriched.length };
+
+  // 2. PROCESS INTENT
+  let intentBundle = [];
+  const intentSheet = ss.getSheetByName("Intent") || ss.getSheetByName("Intent_Data");
+  if (intentSheet) {
+    const intentData = intentSheet.getDataRange().getValues();
+    const iHeaders = intentData[0].map(h => h.toString().toLowerCase());
+    const iName = iHeaders.findIndex(h => h.includes('intent') || h.includes('query') || h.includes('name'));
+    const iOpp = iHeaders.findIndex(h => h.includes('opportunities') && !h.includes('pop'));
+    const iPop = iHeaders.findIndex(h => h.includes('pop'));
+    const iShare = iHeaders.findIndex(h => h.includes('share of searches'));
+    
+    intentBundle = intentData.slice(1).map(r => ({
+      intent: String(r[iName > -1 ? iName : 0]),
+      volume: parseFloat(r[iOpp > -1 ? iOpp : 1]) || 0,
+      growth: (parseFloat(r[iPop > -1 ? iPop : 2]) || 0) * 100,
+      share: iShare > -1 ? (parseFloat(r[iShare]) > 1 ? parseFloat(r[iShare]) : parseFloat(r[iShare]) * 100) : null
+    })).filter(r => r.intent);
+  }
+
+  // 3. PROCESS FEATURES
+  let featureBundle = [];
+  const featureSheet = ss.getSheetByName("Features") || ss.getSheetByName("Features_Data");
+  if (featureSheet) {
+    const featureData = featureSheet.getDataRange().getValues();
+    const fHeaders = featureData[0].map(h => h.toString().toLowerCase());
+    const fName = fHeaders.findIndex(h => h.includes('feature') || h.includes('query') || h.includes('name'));
+    const fOpp = fHeaders.findIndex(h => h.includes('opportunities') && !h.includes('pop'));
+    const fPop = fHeaders.findIndex(h => h.includes('pop'));
+    const fShare = fHeaders.findIndex(h => h.includes('share of searches'));
+    
+    featureBundle = featureData.slice(1).map(r => ({
+      feature: String(r[fName > -1 ? fName : 0]),
+      volume: parseFloat(r[fOpp > -1 ? fOpp : 1]) || 0,
+      growth: (parseFloat(r[fPop > -1 ? fPop : 2]) || 0) * 100,
+      share: fShare > -1 ? (parseFloat(r[fShare]) > 1 ? parseFloat(r[fShare]) : parseFloat(r[fShare]) * 100) : null
+    })).filter(r => r.feature);
+  }
+
+  // 4. PROCESS BRANDS
+  let brandBundle = [];
+  const brandSheet = ss.getSheetByName("Brands") || ss.getSheetByName("Brands_Data");
+  if (brandSheet) {
+    const brandData = brandSheet.getDataRange().getValues();
+    const bHeaders = brandData[0].map(h => h.toString().toLowerCase());
+    const bName = bHeaders.findIndex(h => h.includes('brand') || h.includes('query') || h.includes('name'));
+    const bOpp = bHeaders.findIndex(h => h.includes('opportunities') && !h.includes('pop'));
+    const bPop = bHeaders.findIndex(h => h.includes('pop'));
+    const bShare = bHeaders.findIndex(h => h.includes('share of searches'));
+    
+    brandBundle = brandData.slice(1).map(r => ({
+      brand: String(r[bName > -1 ? bName : 0]),
+      volume: parseFloat(r[bOpp > -1 ? bOpp : 1]) || 0,
+      growth: (parseFloat(r[bPop > -1 ? bPop : 2]) || 0) * 100,
+      share: bShare > -1 ? (parseFloat(r[bShare]) > 1 ? parseFloat(r[bShare]) : parseFloat(r[bShare]) * 100) : null
+    })).filter(r => r.brand);
+  }
+
+  return `ACT AS A SENIOR MARKET RESEARCH LEAD AND GOOGLE STRATEGIST. Create a high-impact, structured insight report based on the provided search data.
+TOPIC: ${targetaudience}
+
+DATA DEFINITIONS:
+Topic: The keyword, feature, intent, or brand used to find this product.
+Searches (Ad Opps): The raw volume of interest. CRITICAL FILTER: IGNORE any query with fewer than 1,000 Searches. Do not include these in any analysis.
+YoY Growth: The percentage change in interest over the last year.
+Share: The pre-calculated Share of Searches percentage.
+
+RAW DATASET (General Terms):
+(Top 100 of ${termBundle.totalRows} queries):
+${JSON.stringify(termBundle.top, null, 2)}
+
+INTENT DATA:
+${JSON.stringify(intentBundle, null, 2)}
+
+FEATURES DATA:
+${JSON.stringify(featureBundle, null, 2)}
+
+BRANDS DATA:
+${JSON.stringify(brandBundle, null, 2)}
+
+REPORT STRUCTURE:
+
+EXECUTIVE ABSTRACT & AI DISCLAIMER
+Provide a concise, 2-3 sentence high-level summary of the overall market dynamics for ${targetaudience}. Immediately follow this with a clear disclaimer stating: "Disclaimer: This report contains AI-generated strategic insights based on search data trends. Please independently verify all data before incorporating it into external or client-facing materials."
+
+1. TOP 3 EMERGING MARKET TRENDS
+Identify overarching themes in the data (using only terms with >1,000 searches). For each trend, provide:
+Trend Name: A descriptive title for the shift.
+Metrics: Use [YoY Growth %] to justify the trend.
+Evidence: Cite specific queries from the data that prove this trend exists for ${targetaudience}.
+
+2. Brand Share of Searches
+Using the search data, identify the presence of specific brands versus generic terms.
+Relative Share: Do NOT use raw volumes. Instead, strictly use the pre-calculated "share" values provided directly in the BRANDS DATA.
+Analysis: Highlight which brands are dominating the Share of Mind for ${targetaudience} and which are losing ground based on YoY growth.
+Format/Output: Present a clean breakdown showing the Share of Search (%) and the YoY Growth (%) for each brand. Add a brief qualitative summary of the competitive landscape (e.g., Who is the undisputed leader? Who are the rising challengers?).
+
+3. The Intent Landscape
+Analyze the "Intent" data to map where consumers are in the funnel.
+Objective: strictly use the pre-calculated "share" values provided in the INTENT DATA to represent consumer intents.
+Format: Present the Intent Share (%) and YoY Growth (%). Add commentary on shifting funnel dynamics (e.g., Is there a massive rise in "Comparison" or "Refurbished" queries indicating price sensitivity? Are "Review" searches outpacing "Best" searches?)
+
+4. BRAND X ATTRIBUTE
+STRICT DATA ISOLATION RULE: For this section, you are strictly forbidden from looking at the "Brands", "Intent", or "Features" data tabs. You MUST derive the Brand x Attribute resonance EXCLUSIVELY by analyzing the granular queries within the "Top terms" data.
+Objective: Find granular queries in the top terms where a specific brand is searched alongside a specific feature or attribute (e.g., a high-volume query like "[Brand A] camera" vs "[Brand B] battery"). Provide strong qualitative commentary on which brands are successfully owning specific narratives or attributes in the minds of consumers.
+Format: Identify 3-4 interesting intersections directly from the query strings. Explain the consumer perception based on the search volume and growth of those specific raw queries.
+
+5. Feature Demand Breakdown
+Analyze the "Features" data to show what hardware/software capabilities matter most.
+Objective: Strictly use the pre-calculated "share" values provided in the FEATURES DATA. Include only the top 6 features by share percentage - aggregate the rest into an "Others" category.
+Format: Present the Feature Share (%) and YoY Growth (%). Add qualitative insights on which features are now considered "table stakes" (high share, flat growth) versus "innovation drivers" (lower share, explosive growth).
+
+6. Strategic Marketing Recommendations (Google Ads & Content)
+Translate the above insights into actionable sales pitches for the client.
+Objective: Provide 4-5 concrete marketing recommendations.
+Format: Group recommendations by strategy.
+Content Strategy: How should brands pivot their ad creatives, video narratives, and messaging pillars based on the Features and Intent data?
+Google Ads Strategy: How should they structure their Google Ads campaigns? (e.g., Bidding aggressively on mid-funnel comparison terms via Search, using explosive feature trends as hooks in YouTube Shorts campaigns, or leveraging Performance Max to capture shifting brand allegiances).
+
+IMPORTANT:
+Do NOT start with meta sentences like "Of course..." or "Here is your report".
+Start directly from the EXECUTIVE ABSTRACT & AI DISCLAIMER.
+No conversational filler.
+STRICTLY PLAIN TEXT: Do NOT use Markdown formatting (no asterisks like ** or *).
+Do NOT use bolding syntax.
+Use uppercase for main headings (e.g., "1. TOP 3 EMERGING MARKET TRENDS") to distinguish them without bolding symbols.
+THRESHOLD RULE: STRICTLY ignore all data points with "Searches" < 1,000.
+VOLUME RULE: Never output raw search volume numbers. Use "Share %" for groups/competitors and "YoY Growth %" elsewhere.
+Ensure the advice is hyper-specific to ${targetaudience}.
+
+`;
+}
