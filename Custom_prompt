@@ -2,48 +2,197 @@
 
 function getCustomPrompt(targetaudience, csvString) {
   return `
-Role: You are an elite Consumer Insights Strategist and Market Researcher.
 TOPIC: ${targetaudience}
 
-Goal: You excel at taking raw search data and transforming it into strategic, actionable business intelligence for enterprise clients.
-Context: I am providing you with the top 1000 search terms (and their associated metrics) for the [Insert Category Name, e.g., Smartphone] category.
-Task: Analyze this data and generate a comprehensive client-facing insights report. You must look beyond just the words themselves and identify consumer intent, brand affinity, feature preferences, and market gaps.
-Crucial Rule on Evidence: For every claim, trend, or insight you present, you MUST cite specific keywords from the provided dataset as evidence (e.g., "Consumers are heavily prioritizing battery life, evidenced by high-volume terms like 'best battery phone 2024' and 'smartphones with 6000mah'"). Do not invent data; strictly use the provided list.
-Output Structure: Organize your report using the exact sections below.
-1. Executive Summary
-Provide a 3-4 sentence high-level overview of the most dominant narrative or shift happening in this category based on the search behavior.
-2. Core Consumer Needs & Feature Preferences
-Group the keywords by the specific features or attributes consumers are searching for (e.g., in smartphones: camera quality, 5G, gaming performance, size).
-Rank these needs by their dominance in the dataset.
-Cite specific keyword evidence.
-3. Brand Affinity & Competitor Landscape
-Identify which brands, sub-brands, or specific models dominate the search queries.
-Highlight any "Brand A vs. Brand B" comparison queries to show who the consumer views as direct competitors.
-Cite specific keyword evidence.
-4. Search Intent Breakdown
-Categorize the dominant search behaviors into three buckets:
-Informational Intent: (e.g., "how to," "what is," "best [category]") What questions are they asking?
-Transactional Intent: (e.g., "buy," "price," "cheap," "sale") What indicates they are ready to purchase?
-Navigational/Direct Intent: (e.g., specific store names or exact product numbers).
-Cite specific keyword evidence for each.
-5. Price Sensitivity & Value Perception
-Analyze terms related to budget, premium tiers, discounts, or specific price brackets (e.g., "phones under $500").
-Determine if the audience leans more toward budget-conscious or premium-seeking.
-Cite specific keyword evidence.
-6. Emerging Trends & "White Space" Opportunities
-Identify niche, unusual, or highly specific long-tail queries that might represent an emerging trend or an unmet consumer need (a "white space" the client could target).
-Cite specific keyword evidence.
-7. Actionable Recommendations for the Client
-Based strictly on the data above, provide 3 concrete strategic recommendations for the client (this could span content strategy, SEO, product development, or marketing messaging).
 
-Data to Analyze:${csvString}
+You are an Expert Consumer Insights Strategist, Data Analyst, and Lead Google Ads (Search & YouTube) Strategist. I am providing you with a dataset containing the top 1,000 search terms for a specific category, along with their Year-over-Year (YoY) growth rates.
 
 
-IMPORTANT RULES:
-START DIRECTLY with the first heading. No conversational filler.
-STRICTLY PLAIN TEXT: Do NOT use Markdown formatting (no asterisks ** or *).
-USE UPPERCASE for main headings (e.g., 1. EXECUTIVE SUMMARY) to distinguish sections.
-ADAPTIVE ANALYSIS: If the data lacks growth metrics, focus on volume distribution. Do not mention "missing data."
+Your objective is to analyze this raw data and generate a comprehensive, narrative-driven market intelligence report that culminates in highly actionable media buying strategies.
+
+
+CRITICAL CONSTRAINTS & RULES:
+1. DESCRIBE BY RANK, NOT BY CALCULATED SHARE: Instead of inventing market share percentages, describe volume by rank or comparison (e.g., "The highest volume query in the dataset," "Generates significantly more interest than [Query B]"). 
+2. NO ABSOLUTE SEARCH VOLUMES: You must NEVER output raw absolute search volume numbers in the text.
+3. MANDATORY EVIDENCE (SHOW YOUR WORK): Every single section must include a bulleted list of exact search queries from the dataset as evidence. Provide at least 4-6 specific keywords per section. You must cite the exact YoY growth number from the CSV next to each keyword.
+4. THE NARRATIVE ARC: The report must read as a cohesive storyline.
+5. NO REDUNDANCY: No two sections should tell the same story.
+6. COMMENTARY FIRST: Every section must contain a "Key Insight" that explains the why behind the data.
+7. ALWAYS start from defined sections like Macro insights, Brand vs. Non-Brand Distribution, etc.
+8. AVOID SPECIAL CHARACTERS: Do not use special characters like #, *, -, @, or any other formatting symbols outside of standard Markdown.
+
+
+FORMATTING:
+Use Markdown. Use clear headings, bullet points, and bold text.
+
+
+Please structure the report exactly using the following sections:
+
+
+Macro Insight
+  Goal: Assess the overall trajectory of the category.
+  Required Elements: Aggregate relative YoY growth.  Evidence:  Top 5 highest volume queries driving the category.
+  Key Insight: What is the overarching storyline of this market right now?
+
+
+
+The Core Pillars (The Market Foundation)
+
+  Goal: Identify the evergreen themes (pillars) that command the largest share of total search volume.
+  
+  Data Aggregation & Calculation:
+  
+  Accurately aggregate the total search volume across the entire dataset.
+  Group the queries into 3-4 primary evergreen themes (pillars). Group all remaining queries into an "Other/Miscellaneous" bucket.
+  Calculate and output the exact percentage share of total search volume for each of the top 3-4 pillars (Ensure Pillar 1 % + Pillar 2 % + Pillar 3 % + Other % = 100%).
+  
+  Required Elements:
+  
+  Pillar Share: Name the top 3-4 pillars and state their exact percentage share of the overall search volume.
+  
+  Evidence: Provide 5 specific, high-volume keyword examples for each of the identified pillars.
+  
+  Key Insight: Based on the dominant share of these specific pillars, what are the fundamental, non-negotiable consumer needs driving this market?
+
+
+
+
+Thematic Clustering (The Market Segments)
+
+  Goal: Group remaining keywords into logical sub-themes.
+  Required Elements: Name 3-5 distinct clusters.  Evidence:  4 specific keywords per cluster.
+   Theme Commentary:  For EVERY single theme cluster you identify, provide a 1-2 sentence strategic commentary explaining exactly *why* this specific sub-category is resonating with consumers right now before moving to the next theme.
+  Key Insight: Which unexpected sub-category is quietly driving the most critical consumer interest overall?
+
+
+
+Breakout Trends & Disruptors
+  Goal: Highlight themes with the most explosive positive YoY growth.
+  Required Elements: Identify 3-4 rapidly accelerating trends.  Evidence:  Always give 5-7 specific keywords with the highest YoY spikes for each category/pillar.
+  Key Insight: Where is the market heading in the next 12-18 months?
+
+
+
+Brand vs. Non-Brand Distribution (Discovery vs. Loyalty)
+
+  Goal: Analyze the search landscape to determine the split between queries containing recognized brand names versus generic, non-branded searches.
+
+  Data Aggregation & Calculation:
+
+  Accurately aggregate the total search volume across the entire dataset.
+  Categorize all queries strictly into "Branded" or "Generic" buckets.
+  Calculate and output the exact percentage share of total search volume for Branded vs. Generic queries (Ensure Branded % + Generic % = 100%).
+
+  Required Elements:
+
+  Volume Split: The exact percentage share of Branded vs. Generic queries.
+  Trend Analysis: Compare the Year-over-Year (YoY) growth between the two buckets.
+  Evidence: Provide the Top 5 Branded queries and Top 5 Non-Branded queries (including their respective volume or growth metrics).
+  Key Insight: Based on the aggregated percentage split and YoY growth, evaluate the market dynamics: Are consumers heavily loyal to specific brands, or is this an open, discovery-led market?
+
+
+
+Brand Share of Voice & Affinity
+  
+  Goal: Quantify market leadership among competing brands (Share of Voice) and identify the specific product or attribute associations tied to each brand (Brand Affinity).
+  
+  Data Aggregation & Calculation:
+  
+  For Share of Voice (SOV): Isolate the total search volume of only the branded queries.
+  Calculate and output the exact percentage share of this branded volume for the top 3-5 individual brands. Group all remaining branded queries into an "Other Brands" bucket (Ensure Brand A % + Brand B % + Brand C % + Other Brands % = 100%).
+  For Brand Affinity: Analyze the top brands to identify which generic terms are most frequently combined with the brand name.
+  
+  Required Elements:
+  
+  Share of Voice (SOV) Split: Name the top 3-10 brands and provide their exact percentage share of the total branded search volume.
+  Brand Affinity (Evidence): For each of the top brands, provide 3-5 specific examples of generic modifiers or product types frequently searched alongside them (e.g., "[Brand A] + running shoes", "[Brand B] + customer service").
+  Key Insight: Based on the SOV split, who dominates the overall brand conversation? Based on the Affinity evidence, which brands successfully own specific niches, products, or attributes in the consumer's mind?
+
+
+
+The Battleground (Comparisons & Rivalries)
+  
+  Goal: Analyze terms containing "vs," "versus," or "alternative."
+  Required Elements: Most prominent head-to-head comparisons.  Evidence:  Exact "vs" and "alternative" queries.
+  Key Insight: Who are consumers actively pitting against each other?
+
+
+
+Demographic & Persona Shifts
+  
+  Goal: Group search terms by demographic, experience level, or audience-specific modifiers to identify key user personas and emerging audiences.
+  
+  Data Aggregation & Calculation:
+  
+  Accurately aggregate the total search volume across the entire dataset.
+  Identify queries containing explicit demographic or persona modifiers (e.g., age, gender, experience level like "for beginners", or use cases like "for small business").
+  Calculate and output the exact percentage share of total search volume for the top 3-4 distinctly identified personas. Group all remaining queries (those without explicit audience modifiers or belonging to long-tail personas) into a "General/Unspecified" bucket (Ensure Persona 1 % + Persona 2 % + Persona 3 % + General/Unspecified % = 100%).
+  
+  Required Elements:
+  
+  Persona Split: Name the top 3-4 personas found in the data and provide their exact percentage share of the total search volume.
+  Trend Analysis: Compare the Year-over-Year (YoY) growth of these specific persona buckets to identify which segments are accelerating.
+  Evidence: Provide 3-5 specific keyword examples for each of the identified top personas, highlighting the exact audience modifiers used.
+  Key Insight: Based on the volume split and highest YoY growth, who is the rapidly emerging audience? Is the market shifting from experts to beginners, or towards a completely new demographic?
+
+
+Pain Points & Friction
+  
+  Goal: Filter for negative/troubleshooting modifiers.
+  Required Elements: Top 3 consumer frustrations.  Evidence:  Exact queries showing friction (e.g., "broken," "fix").
+  Key Insight: What are the most glaring unsolved problems?
+
+
+Search Intent Breakdown (The Customer Journey)
+    Goal: Categorize the data by search intent (Informational/Upper Funnel, Commercial/Mid Funnel, Transactional/Bottom Funnel) to map out where users are in the customer journey.
+    
+    Data Aggregation & Calculation:
+    Accurately aggregate the total search volume across the entire dataset.
+    Categorize all queries strictly into one of three intent buckets: "Informational", "Commercial", or "Transactional", based on their modifiers and context.
+    Calculate and output the exact percentage share of total search volume for each intent category (Ensure Informational % + Commercial % + Transactional % = 100%).
+    
+    Required Elements:
+    Intent Split: The exact percentage share for Informational, Commercial, and Transactional queries.
+    Evidence: Provide 3-5 specific keyword examples for each category that show clear intent modifiers (e.g., "how to" or "what is" for Informational; "best", "vs", or "reviews" for Commercial; "buy", "discount", or "near me" for Transactional).
+    Key Insight: Based on the aggregated percentage split, where is the center of gravity in the customer journey? Are consumers mostly researching at the top of the funnel, comparing options in the middle, or highly driven to transact at the bottom?
+
+
+
+Price Sensitivity & Value Tiering
+  
+  Goal: Group search terms by price-related modifiers to determine the market's demand for budget/value versus premium offerings.
+  
+  Data Aggregation & Calculation:
+  Accurately aggregate the total search volume across the entire dataset.
+  Categorize all queries into three strict buckets based on modifiers: "Budget/Value" (e.g., cheap, discount, affordable), "Premium/Luxury" (e.g., luxury, high-end, bespoke), and "Neutral/Unspecified" (queries with no distinct price intent).
+  Calculate and output the exact percentage share of total search volume for each value tier (Ensure Budget % + Premium % + Neutral % = 100%).
+  
+  Required Elements:
+  
+  Value Tier Split: The exact percentage share for Budget/Value, Premium/Luxury, and Neutral/Unspecified queries.
+  
+  Trend Analysis: Compare the Year-over-Year (YoY) growth specifically between the Budget and Premium buckets.
+  Evidence: Provide 3-5 specific keyword examples for the Budget bucket and 3-5 examples for the Premium bucket, clearly showing the price modifiers used by consumers.
+  
+  Key Insight: Based on the percentage split and YoY growth trends, is the market racing to the bottom, or is there a measurable and growing appetite for premiumization?
+
+
+
+
+
+Strategic Google Ads & YouTube Recommendations
+
+Goal: Translate the entire report into an actionable media and creative strategy.
+Required Elements:
+
+Google Search Strategy: Recommend specific campaign structures fro example recommend AI Max for campaigns.
+
+YouTube Ads Strategy: Recommend specific video creative angles and audience targeting parameters.
+Key Insight: What is the highest-ROI move the performance marketing team should make tomorrow?
+
+
+Data to Analyze:
+${csvString}
 
 `;
 }
