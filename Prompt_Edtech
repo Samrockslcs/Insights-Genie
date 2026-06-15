@@ -1,0 +1,129 @@
+function getEdTechPrompt(sheetId, targetaudience) {
+  const ss = SpreadsheetApp.openById(sheetId);
+  const sheets = ss.getSheets();
+  
+  // 1. PROCESS TOP TERMS (Sheet 0)
+  const termSheet = sheets[0];
+  const termData = termSheet.getDataRange().getValues();
+  const tHeaders = termData[0].map(h => h.toString().toLowerCase());
+  const qI = tHeaders.findIndex(h => h.includes('query'));
+  const oI = tHeaders.findIndex(h => h.includes('opportunities') && !h.includes('pop'));
+  const pI = tHeaders.findIndex(h => h.includes('pop'));
+
+  const rows = termData.slice(1).map(r => ({
+    query: String(r[qI] || '').trim(),
+    adOpp: parseFloat(r[oI]) || 0,
+    adOppPoP: (parseFloat(r[pI]) || 0) * 100 
+  })).filter(r => r.query);
+
+  const maxOpp = Math.max(...rows.map(r => r.adOpp));
+  const termEnriched = rows.map(r => ({
+    query: r.query, IOS: maxOpp ? (r.adOpp / maxOpp) * 100 : 0, PoP: r.adOppPoP
+  })).sort((a,b) => b.IOS - a.IOS);
+  const termBundle = { top: termEnriched.slice(0, 100), totalRows: termEnriched.length };
+
+  // Generic extraction function for Sheets 1-5 (Tech, Degrees, Non-Tech, Brands, Universities)
+  function extractEdTechSheet(sheetIndex) {
+    if (sheets.length <= sheetIndex) return [];
+    const sheetData = sheets[sheetIndex].getDataRange().getValues();
+    const headers = sheetData[0].map(h => h.toString().toLowerCase());
+    
+    const nameIdx = headers.findIndex(h => h.includes('query') || h.includes('name') || h.includes('course') || h.includes('brand'));
+    const oppIdx = headers.findIndex(h => h.includes('opportunities') && !h.includes('pop'));
+    const popIdx = headers.findIndex(h => h.includes('pop'));
+    const shareIdx = headers.findIndex(h => h.includes('share of searches'));
+    
+    return sheetData.slice(1).map(r => ({
+      item: String(r[nameIdx > -1 ? nameIdx : 0]),
+      volume: parseFloat(r[oppIdx > -1 ? oppIdx : 1]) || 0,
+      growth: (parseFloat(r[popIdx > -1 ? popIdx : 2]) || 0) * 100,
+      share: shareIdx > -1 ? (parseFloat(r[shareIdx]) > 1 ? parseFloat(r[shareIdx]) : parseFloat(r[shareIdx]) * 100) : null
+    })).filter(r => r.item);
+  }
+
+  // 2-6. PROCESS REMAINING EDTECH SHEETS
+  const techBundle = extractEdTechSheet(1);       // Tech Courses
+  const degreeBundle = extractEdTechSheet(2);     // Degrees
+  const nonTechBundle = extractEdTechSheet(3);    // Non-Tech
+  const brandBundle = extractEdTechSheet(4);      // Brands (Platforms)
+  const universityBundle = extractEdTechSheet(5); // Universities
+
+  return `ACT AS A SENIOR MARKET RESEARCH LEAD AND GOOGLE STRATEGIST. Create a high-impact, structured insight report based on the provided search data.
+TOPIC: ${targetaudience}
+
+DATA DEFINITIONS:
+Topic: The keyword, course, degree, brand, or university used to find this product.
+Searches (Ad Opps): The raw volume of interest. CRITICAL FILTER: IGNORE any query with fewer than 1,000 Searches. Do not include these in any analysis.
+YoY Growth: The percentage change in interest over the last year.
+Share: The pre-calculated Share of Searches percentage.
+
+RAW DATASET (General Terms):
+(Top 100 of ${termBundle.totalRows} queries):
+${JSON.stringify(termBundle.top, null, 2)}
+
+TECH COURSES DATA:
+${JSON.stringify(techBundle, null, 2)}
+
+DEGREES DATA:
+${JSON.stringify(degreeBundle, null, 2)}
+
+NON-TECH COURSES DATA:
+${JSON.stringify(nonTechBundle, null, 2)}
+
+EDTECH BRANDS DATA:
+${JSON.stringify(brandBundle, null, 2)}
+
+UNIVERSITIES DATA:
+${JSON.stringify(universityBundle, null, 2)}
+
+REPORT STRUCTURE:
+
+EXECUTIVE ABSTRACT & AI DISCLAIMER
+Provide a concise, 2-3 sentence high-level summary of the overall market dynamics for ${targetaudience}. Immediately follow this with a clear disclaimer stating: "Disclaimer: This report contains AI-generated strategic insights based on search data trends. Please independently verify all data before incorporating it into external or client-facing materials."
+
+1. TOP 3 EMERGING MARKET TRENDS
+Identify overarching themes in the data (using only terms with >1,000 searches). For each trend, provide:
+Trend Name: A descriptive title for the shift (e.g., The Rise of Micro-Credentials, AI Skill Boom).
+Metrics: Use [YoY Growth %] to justify the trend.
+Evidence: Cite specific queries from the data that prove this trend exists for ${targetaudience}.
+
+2. BRAND AND UNIVERSITY SHARE OF MIND
+Using the EDTECH BRANDS and UNIVERSITIES data, analyze the institutional landscape.
+Relative Share: Do NOT use raw volumes. Instead, strictly use the pre-calculated "share" values.
+Analysis: Compare how traditional Universities are performing against modern EdTech platforms (Brands). Highlight who is dominating the Share of Mind and who is losing ground based on YoY growth.
+Format/Output: Present a clean breakdown showing the Share of Search (%) and the YoY Growth (%) for the top entities. Add a brief qualitative summary of the competitive landscape.
+
+3. THE COURSE LANDSCAPE: TECH VS. NON-TECH
+Analyze the "Tech Courses" and "Non-Tech" data to map skill demand.
+Objective: strictly use the pre-calculated "share" values provided.
+Format: Present the Share (%) and YoY Growth (%) for the top 4 Tech courses and top 4 Non-Tech courses. Add commentary on shifting skill demands (e.g., Is Data Science flattening out while GenAI explodes? Are management/soft skills holding steady compared to hard coding skills?).
+
+4. INSTITUTION X PROGRAM RESONANCE
+STRICT DATA ISOLATION RULE: For this section, you are strictly forbidden from looking at the Tech, Degrees, Non-Tech, Brands, or Universities tabs. You MUST derive this resonance EXCLUSIVELY by analyzing the granular queries within the "Top terms" data.
+Objective: Find granular queries in the top terms where a specific brand or university is searched alongside a specific program or degree (e.g., "[Brand A] data science course" vs "[University B] online MBA"). Provide strong qualitative commentary on which institutions are successfully owning specific academic verticals in the minds of prospective students.
+Format: Identify 3-4 interesting intersections directly from the query strings. Explain the student perception based on the search volume and growth of those specific raw queries.
+
+5. DEGREE DEMAND BREAKDOWN
+Analyze the "Degrees" data to show which formal qualifications matter most to learners right now.
+Objective: Strictly use the pre-calculated "share" values provided in the DEGREES DATA. Include only the top 6 degrees by share percentage - aggregate the rest into an "Others" category.
+Format: Present the Degree Share (%) and YoY Growth (%). Add qualitative insights on which degrees are stable "table stakes" versus which traditional degrees are experiencing explosive growth or rapid decline.
+
+6. STRATEGIC MARKETING RECOMMENDATIONS (Google Ads & Content)
+Translate the above insights into actionable student acquisition strategies for the client.
+Objective: Provide 4-5 concrete marketing recommendations.
+Format: Group recommendations by strategy.
+Content Strategy: How should EdTech brands/universities pivot their ad creatives, landing pages, and messaging pillars based on the Course and Degree data?
+Google Ads Strategy: How should they structure their Google Ads campaigns? (e.g., Bidding aggressively on high-intent degree terms via Search, using explosive Tech Course trends as hooks in YouTube Shorts campaigns, or leveraging Performance Max to capture shifting platform allegiances).
+
+IMPORTANT:
+Do NOT start with meta sentences like "Of course..." or "Here is your report".
+Start directly from the EXECUTIVE ABSTRACT & AI DISCLAIMER.
+No conversational filler.
+STRICTLY PLAIN TEXT: Do NOT use Markdown formatting (no asterisks like ** or *).
+Do NOT use bolding syntax.
+Use uppercase for main headings (e.g., "1. TOP 3 EMERGING MARKET TRENDS") to distinguish them without bolding symbols.
+THRESHOLD RULE: STRICTLY ignore all data points with "Searches" < 1,000.
+VOLUME RULE: Never output raw search volume numbers. Use "Share %" for groups/competitors and "YoY Growth %" elsewhere.
+Ensure the advice is hyper-specific to the EdTech landscape and ${targetaudience}.
+`;
+}
