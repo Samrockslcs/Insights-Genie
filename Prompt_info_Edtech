@@ -1,0 +1,439 @@
+function getEdTechInfographicPrompt(targetaudience, reportText) {
+  return `You are generating a polished, modern Tailwind infographic.
+
+STRICT OUTPUT RULES:
+- Output ONLY HTML (no markdown, no code fences).
+- Do NOT include <html>, <head>, <body>, or <script>.
+- Use Tailwind utility classes only.
+- Keep text concise. No long paragraphs.
+- "Disclaimer: Insights are AI-generated. Please independently verify all data before incorporating it into external or client-facing materials." this line should always be at the footer.
+_ Always use Google Based Colour Themes
+
+Design a beautiful, modern layout utilizing flexbox and grid tailored for the EdTech industry. Use a visual aesthetic that conveys learning, digital education, academia, and career growth (e.g., trust-building blues, vibrant academic purples, or energetic greens).
+
+Maintain the theme of the example below across all infographics, but use complete insights:
+${reportText} which is generated to make infographics: 
+
+<!DOCTYPE html><html><head><script src="https://cdn.tailwindcss.com"></script></head><body style="background:#f8fafc; padding:24px;"><div style="max-width:1152px; margin:0 auto; background:white; border-radius:16px; padding:32px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);"><div class="bg-slate-900 font-sans text-slate-300 antialiased">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+    <!-- Header Section -->
+    <header class="text-center mb-16">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500 mb-4">EdTech Search Intelligence</h1>
+      <p class="max-w-4xl mx-auto text-lg text-slate-400">The EdTech landscape is shifting from broad degrees to niche, practical skills. While platforms dominate, savvy universities are growing by owning their student ecosystems.</p>
+    </header>
+
+    <!-- Section 1: Emerging Market Trends -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold text-white mb-2 text-center">Top 3 Emerging Market Trends</h2>
+      <p class="text-center text-slate-400 mb-10">A snapshot of the most significant shifts in user search behavior.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Trend 1 Card -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex flex-col hover:border-indigo-500 transition-colors duration-300">
+          <div class="flex-shrink-0">
+            <div class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-500 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">The Self-Starter Skill Surge</h3>
+          <p class="text-slate-400 mb-4">Astronomical growth in searches for accessible, entry-level skills signals a demand for immediate, practical knowledge.</p>
+          <div class="mt-auto space-y-2 text-sm">
+            <p class="flex items-center"><span class="font-mono text-emerald-400 mr-2">+23592%</span> "how to learn english fast"</p>
+            <p class="flex items-center"><span class="font-mono text-emerald-400 mr-2">+144514%</span> "japanese english exam"</p>
+            <p class="flex items-center"><span class="font-mono text-emerald-400 mr-2">+1543%</span> "python tutorial for beginners"</p>
+          </div>
+        </div>
+        <!-- Trend 2 Card -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex flex-col hover:border-indigo-500 transition-colors duration-300">
+          <div class="flex-shrink-0">
+            <div class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-500 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">The Existing Student Ecosystem</h3>
+          <p class="text-slate-400 mb-4">High-volume, stable growth for university portal queries reveals a highly engaged, captive audience.</p>
+          <div class="mt-auto space-y-2 text-sm">
+            <p class="flex items-center"><span class="font-mono text-emerald-400 mr-2">+39.88%</span> "srm student portal"</p>
+            <p class="flex items-center"><span class="font-mono text-emerald-400 mr-2">+47.10%</span> "pesu academy"</p>
+            <p class="flex items-center"><span class="font-mono text-emerald-400 mr-2">+41.82%</span> "muj slcm"</p>
+          </div>
+        </div>
+        <!-- Trend 3 Card -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex flex-col hover:border-indigo-500 transition-colors duration-300">
+          <div class="flex-shrink-0">
+            <div class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-500 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-white mt-4 mb-2">The Great Cooldown</h3>
+          <p class="text-slate-400 mb-4">Broad searches for popular tech and business degrees are in significant decline, suggesting market saturation.</p>
+          <div class="mt-auto space-y-2 text-sm">
+            <p class="flex items-center"><span class="font-mono text-rose-400 mr-2">-24.48%</span> "data science course"</p>
+            <p class="flex items-center"><span class="font-mono text-rose-400 mr-2">-16.75%</span> "digital marketing course"</p>
+            <p class="flex items-center"><span class="font-mono text-rose-400 mr-2">-18.61%</span> "mba courses"</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Share of Mind -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold text-white mb-2 text-center">Brand & University Share of Mind</h2>
+      <p class="text-center text-slate-400 mb-10">Dedicated platforms dominate, but specific universities show remarkable growth.</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- EdTech Platforms -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-4">Top EdTech Platforms</h3>
+          <ul class="space-y-4">
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">Udemy</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">43.62%</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17l-5-5-5 5M13 7l-5 5-5-5"></path></svg>
+                  -10.92%
+                </span>
+              </div>
+            </li>
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">Coursera</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">29.01%</span>
+                <span class="flex items-center text-sm font-medium text-emerald-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                  +5.60%
+                </span>
+              </div>
+            </li>
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">Simplilearn</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">6.21%</span>
+                <span class="flex items-center text-sm font-medium text-emerald-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                  +9.20%
+                </span>
+              </div>
+            </li>
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">Scaler Academy</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">5.22%</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17l-5-5-5 5M13 7l-5 5-5-5"></path></svg>
+                  -13.13%
+                </span>
+              </div>
+            </li>
+             <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">Great Learning</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">4.13%</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17l-5-5-5 5M13 7l-5 5-5-5"></path></svg>
+                  -46.55%
+                </span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- University Groups -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-4">Top University Groups</h3>
+          <ul class="space-y-4">
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">IIT (Aggregate)</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">22.73%</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17l-5-5-5 5M13 7l-5 5-5-5"></path></svg>
+                  -6.50%
+                </span>
+              </div>
+            </li>
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">Lovely Professional University</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">6.45%</span>
+                <span class="flex items-center text-sm font-medium text-emerald-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                  +56.94%
+                </span>
+              </div>
+            </li>
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">SRM University</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">6.38%</span>
+                <span class="flex items-center text-sm font-medium text-emerald-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                  +7.58%
+                </span>
+              </div>
+            </li>
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">UCL</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">6.09%</span>
+                <span class="flex items-center text-sm font-medium text-emerald-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                  +8.41%
+                </span>
+              </div>
+            </li>
+            <li class="flex items-center justify-between gap-4">
+              <span class="font-medium text-slate-200">MIT</span>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-indigo-400">5.42%</span>
+                <span class="flex items-center text-sm font-medium text-emerald-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                  +5.05%
+                </span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+        <p class="text-slate-300"><span class="font-bold text-white">Summary:</span> Udemy leads but is losing ground to Coursera. The standout story is <span class="text-emerald-400 font-semibold">Lovely Professional University's explosive growth</span>, defying trends and indicating a powerful, resonant brand strategy.</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Course Landscape -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold text-white mb-2 text-center">The Course Landscape: Tech vs. Non-Tech</h2>
+      <p class="text-center text-slate-400 mb-10">Demand shifts from foundational skills to high-growth verticals like AI and Sustainability.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Tech Courses -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-6">Top 4 Tech Courses by Share</h3>
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">Artificial Intelligence</span>
+                <span class="flex items-center text-sm font-medium text-emerald-400">+36.88% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 10.99%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">Machine Learning</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">-14.54% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-indigo-500 h-2.5 rounded-full" style="width: 13.19%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">Python</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">-15.78% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-indigo-500 h-2.5 rounded-full" style="width: 13.73%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">Java</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">-38.62% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-indigo-500 h-2.5 rounded-full" style="width: 14.35%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Non-Tech Courses -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-6">Top 4 Non-Tech Courses by Share</h3>
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">Communication</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">-28.34% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-purple-500 h-2.5 rounded-full" style="width: 20.16%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">Healthcare</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">-21.56% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-purple-500 h-2.5 rounded-full" style="width: 11.85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">MBA</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">-78.31% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-rose-600 h-2.5 rounded-full" style="width: 10.65%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-200">Medicine</span>
+                <span class="flex items-center text-sm font-medium text-rose-400">-9.11% YoY</span>
+              </div>
+              <div class="w-full bg-slate-700 rounded-full h-2.5">
+                <div class="bg-purple-500 h-2.5 rounded-full" style="width: 10.40%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Institution x Program Resonance -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold text-white mb-2 text-center">Institution & Program Resonance</h2>
+      <p class="text-center text-slate-400 mb-10">How specific institutions link their brand to student needs in search.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h4 class="font-semibold text-white">1. SRM's Portal Ownership</h4>
+          <p class="text-slate-400 mt-2">SRM has trained its student body to use Google as a primary navigation tool, effectively owning the entry point to its student ecosystem.</p>
+        </div>
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h4 class="font-semibold text-white">2. LPU's Digital Campus Identity</h4>
+          <p class="text-slate-400 mt-2">Students search for LPU-branded platforms ("lpu ums"), not generic terms, signifying deep brand integration and recall.</p>
+        </div>
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h4 class="font-semibold text-white">3. Scaler's University Mimicry</h4>
+          <p class="text-slate-400 mt-2">By using terms like "school of technology," Scaler successfully positions itself to capture searchers looking for university-like formal education.</p>
+        </div>
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h4 class="font-semibold text-white">4. The Generic Course Battlefield</h4>
+          <p class="text-slate-400 mt-2">No single player "owns" high-volume terms like "digital marketing course," making them highly competitive and expensive keyword territories.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Degree Demand Breakdown -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold text-white mb-2 text-center">Degree Demand Breakdown</h2>
+      <p class="text-center text-slate-400 mb-10">Formal degree demand is contracting, with a catastrophic decline in MBA interest.</p>
+      <div class="max-w-3xl mx-auto bg-slate-800/50 border border-slate-700 rounded-xl p-6 sm:p-8">
+        <div class="space-y-6">
+          <!-- MBA -->
+          <div class="grid grid-cols-4 items-center gap-4">
+            <div class="col-span-1 font-medium text-white">MBA</div>
+            <div class="col-span-2">
+              <div class="w-full bg-slate-700 rounded-full h-3">
+                <div class="bg-rose-600 h-3 rounded-full" style="width: 33.46%"></div>
+              </div>
+            </div>
+            <div class="col-span-1 text-right font-mono text-rose-400">-64.60%</div>
+          </div>
+          <!-- BBA -->
+          <div class="grid grid-cols-4 items-center gap-4">
+            <div class="col-span-1 font-medium text-white">BBA</div>
+            <div class="col-span-2">
+              <div class="w-full bg-slate-700 rounded-full h-3">
+                <div class="bg-indigo-400 h-3 rounded-full" style="width: 16.64%"></div>
+              </div>
+            </div>
+            <div class="col-span-1 text-right font-mono text-rose-400">-3.13%</div>
+          </div>
+          <!-- BCA -->
+          <div class="grid grid-cols-4 items-center gap-4">
+            <div class="col-span-1 font-medium text-white">BCA</div>
+            <div class="col-span-2">
+              <div class="w-full bg-slate-700 rounded-full h-3">
+                <div class="bg-indigo-400 h-3 rounded-full" style="width: 13.05%"></div>
+              </div>
+            </div>
+            <div class="col-span-1 text-right font-mono text-rose-400">-16.47%</div>
+          </div>
+          <!-- MS DS -->
+          <div class="grid grid-cols-4 items-center gap-4">
+            <div class="col-span-1 font-medium text-white">MS DS</div>
+            <div class="col-span-2">
+              <div class="w-full bg-slate-700 rounded-full h-3">
+                <div class="bg-indigo-400 h-3 rounded-full" style="width: 11.72%"></div>
+              </div>
+            </div>
+            <div class="col-span-1 text-right font-mono text-rose-400">-13.26%</div>
+          </div>
+          <!-- MCA -->
+          <div class="grid grid-cols-4 items-center gap-4">
+            <div class="col-span-1 font-medium text-white">MCA</div>
+            <div class="col-span-2">
+              <div class="w-full bg-slate-700 rounded-full h-3">
+                <div class="bg-indigo-400 h-3 rounded-full" style="width: 11.67%"></div>
+              </div>
+            </div>
+            <div class="col-span-1 text-right font-mono text-rose-400">-6.00%</div>
+          </div>
+        </div>
+        <p class="mt-6 text-center text-slate-400">The MBA's decline is an order of magnitude greater than other degrees, signaling a major shift away from traditional business education toward more immediate, skill-based learning.</p>
+      </div>
+    </section>
+
+    <!-- Section 6: Strategic Recommendations -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold text-white mb-2 text-center">Strategic Marketing Recommendations</h2>
+      <p class="text-center text-slate-400 mb-10">Actionable insights for Google Ads and Content Strategy.</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Content Strategy -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-4">Content Strategy</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-emerald-400 mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <div><strong class="text-slate-200">Pivot to Growth Verticals:</strong> De-prioritize "MBA" content. Build in-depth hubs around "Artificial Intelligence," "AI Career Paths," and "Sustainability."</div>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-emerald-400 mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <div><strong class="text-slate-200">Capture Self-Starters:</strong> Develop beginner-friendly tutorials ("Python for Beginners") as blog posts, short-form videos, and guides to capture top-of-funnel interest.</div>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-emerald-400 mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <div><strong class="text-slate-200">Own Your Ecosystem:</strong> For universities, create robust FAQ and resource sections for student portals to capture a loyal, high-volume audience.</div>
+            </li>
+          </ul>
+        </div>
+        <!-- Google Ads Strategy -->
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-4">Google Ads Strategy</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-indigo-400 mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <div><strong class="text-slate-200">Restructure Search Campaigns:</strong> Isolate declining keywords ("MBA") into controlled, exact-match campaigns. Aggressively fund new campaigns for growth terms ("AI engineer course").</div>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-indigo-400 mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <div><strong class="text-slate-200">Leverage YouTube Hooks:</strong> Use beginner tutorial content for YouTube ads to build massive, skill-specific remarketing lists for bootcamp and course promotions.</div>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 flex-shrink-0 text-indigo-400 mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <div><strong class="text-slate-200">Defend Your Brand Ecosystem:</strong> Run defensive search campaigns on branded portal terms ("srm student portal") to control the message and prevent competitor intrusion.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center mt-16 pt-8 border-t border-slate-800">
+      <p class="text-xs text-slate-500">Disclaimer: Insights are AI-generated. Please independently verify all data before incorporating it into external or client-facing materials.</p>
+    </footer>
+
+  </div>
+</div></div></body></html>
+
+TITLE: ${targetaudience} - EdTech Search Intelligence
+`;
+}
